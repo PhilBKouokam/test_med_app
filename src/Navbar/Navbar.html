@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayHealthy - Navigation Bar</title>
+    <link rel="stylesheet" href="Navbar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-container">
+            <!-- Logo/Brand -->
+            <a href="Navbar.html" class="logo">
+                <span class="brand-name">StayHealthy</span>
+                <div class="logo-icon">
+                    <div class="logo-dot"></div>
+                </div>
+            </a>
+            
+            <!-- Navigation Menu -->
+            <nav class="nav-menu">
+                <a href="Navbar.html" class="nav-link">Home</a>
+                <a href="#" class="nav-link">Appointments</a>
+                <a href="#" class="nav-link">Health Blog</a>
+                <a href="#" class="nav-link">Reviews</a>
+            </nav>
+            
+            <!-- Auth Buttons -->
+            <div class="auth-buttons">
+                <a href="../Sign_Up/Sign_Up.html" class="btn btn-signup">Sign Up</a>
+                <a href="../Login/Login.html" class="btn btn-login">Login</a>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="Navbar.html" class="mobile-nav-link">Home</a>
+            <a href="#" class="mobile-nav-link">Appointments</a>
+            <a href="#" class="mobile-nav-link">Health Blog</a>
+            <a href="#" class="mobile-nav-link">Reviews</a>
+            <div class="mobile-auth-buttons">
+                <a href="../Sign_Up/Sign_Up.html" class="btn btn-signup">Sign Up</a>
+                <a href="../Login/Login.html" class="btn btn-login">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        // Mobile menu toggle functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileMenu.classList.toggle('active');
+            mobileMenuToggle.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on nav links
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

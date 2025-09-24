@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayHealthy - Sign Up</title>
+    <link rel="stylesheet" href="Sign_Up.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="signup-container">
+        <!-- Back Button -->
+        <button class="back-button" onclick="goBackToHome()">
+            <svg class="back-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Back to Home</span>
+        </button>
+
+        <!-- Sign Up Form Card -->
+        <div class="form-card">
+            <div class="form-header">
+                <h1>Sign Up</h1>
+                <p>Already a member? <a href="../Login/Login.html" class="login-link">Login</a></p>
+            </div>
+
+            <form id="signupForm" class="signup-form" novalidate>
+                <!-- Role Field -->
+                <div class="form-group">
+                    <label for="role" class="form-label">Role</label>
+                    <select id="role" name="role" class="form-select" required>
+                        <option value="">Select role</option>
+                        <option value="patient">Patient</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <div class="error-message" id="roleError"></div>
+                </div>
+
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="name" class="form-label">Name</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        class="form-input" 
+                        placeholder="Enter your name"
+                        required
+                        minlength="2"
+                    >
+                    <div class="error-message" id="nameError"></div>
+                </div>
+
+                <!-- Phone Field -->
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        class="form-input" 
+                        placeholder="Enter your phone number"
+                        required
+                        pattern="[\+]?[1-9][\d]{0,15}"
+                    >
+                    <div class="error-message" id="phoneError"></div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        class="form-input" 
+                        placeholder="Enter your email"
+                        required
+                        pattern="\\S+@\\S+"
+                    >
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="password-input-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input password-input" 
+                            placeholder="Enter your password"
+                            required
+                            minlength="6"
+                        >
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <svg class="eye-icon" id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            <svg class="eye-off-icon hidden" id="eyeOffIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                <line x1="1" y1="1" x2="23" y2="23"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span id="submitText">Submit</span>
+                    <span id="loadingText" class="hidden">Submitting...</span>
+                </button>
+
+                <!-- Reset Button -->
+                <button type="button" class="btn-reset" onclick="resetForm()">
+                    Reset
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form validation and submission
+        const form = document.getElementById('signupForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitText = document.getElementById('submitText');
+        const loadingText = document.getElementById('loadingText');
+
+        // Password toggle functionality
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            const eyeOffIcon = document.getElementById('eyeOffIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.add('hidden');
+                eyeOffIcon.classList.remove('hidden');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('hidden');
+                eyeOffIcon.classList.add('hidden');
+            }
+        }
+
+        // Clear error messages
+        function clearError(fieldName) {
+            const errorElement = document.getElementById(fieldName + 'Error');
+            if (errorElement) {
+                errorElement.textContent = '';
+            }
+        }
+
+        // Show error messages
+        function showError(fieldName, message) {
+            const errorElement = document.getElementById(fieldName + 'Error');
+            if (errorElement) {
+                errorElement.textContent = message;
+            }
+        }
+
+        // Validate individual fields
+        function validateField(field) {
+            const value = field.value.trim();
+            const fieldName = field.name;
+            
+            clearError(fieldName);
+            
+            switch (fieldName) {
+                case 'role':
+                    if (!value) {
+                        showError(fieldName, 'Please select a role');
+                        return false;
+                    }
+                    break;
+                case 'name':
+                    if (!value) {
+                        showError(fieldName, 'Name is required');
+                        return false;
+                    }
+                    if (value.length < 2) {
+                        showError(fieldName, 'Name must be at least 2 characters');
+                        return false;
+                    }
+                    break;
+                case 'phone':
+                    if (!value) {
+                        showError(fieldName, 'Phone number is required');
+                        return false;
+                    }
+                    if (!/^[\+]?[1-9][\d]{0,15}$/.test(value)) {
+                        showError(fieldName, 'Please enter a valid phone number');
+                        return false;
+                    }
+                    break;
+                case 'email':
+                    if (!value) {
+                        showError(fieldName, 'Email is required');
+                        return false;
+                    }
+                    if (!/^\S+@\S+$/i.test(value)) {
+                        showError(fieldName, 'Please enter a valid email address');
+                        return false;
+                    }
+                    break;
+                case 'password':
+                    if (!value) {
+                        showError(fieldName, 'Password is required');
+                        return false;
+                    }
+                    if (value.length < 6) {
+                        showError(fieldName, 'Password must be at least 6 characters');
+                        return false;
+                    }
+                    break;
+            }
+            return true;
+        }
+
+        // Add real-time validation
+        form.addEventListener('input', function(e) {
+            if (e.target.matches('input, select')) {
+                validateField(e.target);
+            }
+        });
+
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const fields = form.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+            
+            // Validate all fields
+            fields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+            
+            if (isValid) {
+                // Show loading state
+                submitBtn.disabled = true;
+                submitText.classList.add('hidden');
+                loadingText.classList.remove('hidden');
+                
+                // Simulate form submission
+                setTimeout(() => {
+                    console.log('Form submitted:', Object.fromEntries(formData));
+                    alert('Sign up successful!');
+                    
+                    // Reset loading state
+                    submitBtn.disabled = false;
+                    submitText.classList.remove('hidden');
+                    loadingText.classList.add('hidden');
+                }, 2000);
+            }
+        });
+
+        // Reset form function
+        function resetForm() {
+            form.reset();
+            // Clear all error messages
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => {
+                element.textContent = '';
+            });
+            // Reset password visibility
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            const eyeOffIcon = document.getElementById('eyeOffIcon');
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('hidden');
+            eyeOffIcon.classList.add('hidden');
+        }
+
+        // Back to home function
+        function goBackToHome() {
+            // Navigate to the navbar page as home
+            window.location.href = '../Navbar/Navbar.html';
+        }
+    </script>
+</body>
+</html>

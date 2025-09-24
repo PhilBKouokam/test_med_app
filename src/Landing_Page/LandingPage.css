@@ -1,0 +1,478 @@
+* {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* Header Styles */
+.header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.logo-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #3B82F6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: #6B7280;
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #374151;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.btn-signup {
+    padding: 0.5rem 1rem;
+    border: 1px solid #3B82F6;
+    background: transparent;
+    color: #3B82F6;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-signup:hover {
+    background-color: #EFF6FF;
+}
+
+.btn-login {
+    padding: 0.5rem 1rem;
+    border: 1px solid #D1D5DB;
+    background: transparent;
+    color: #6B7280;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-login:hover {
+    background-color: #F9FAFB;
+}
+
+/* Hero Section Styles */
+.hero-section {
+    height: 100vh;
+    padding-top: 15rem;
+    background-color: transparent;
+    z-index: -1;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section .flex-hero {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.hero-section .flex-hero h1 {
+    font-size: 65px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.text-gradient {
+    background: linear-gradient(45deg, #2190FF 2.34%, #b673f8 100.78%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-section h4 {
+    font-size: 22px;
+    font-weight: 300;
+    text-align: center;
+    padding: 12px 14rem;
+    color: #969BA5;
+    line-height: 1.6;
+}
+
+.hero-section .button {
+    padding: 0.7rem 2rem;
+    border-radius: 25px;
+    background-color: #2190FF;
+    color: #fff;
+    border: 1px solid transparent;
+    width: 15%;
+    margin-top: 15px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero-section .button:hover {
+    transform: scale(0.98);
+    background-color: #1e7ed8;
+}
+
+.hero-section div:nth-child(2) {
+    margin-top: 4rem;
+}
+
+.hero-section .image {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+}
+
+/* Services Section */
+.services-section {
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.services-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.services-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: white;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.service-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+.service-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.service-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.service-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #1f2937;
+    color: white;
+    padding: 3rem 2rem 1rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-text {
+    color: #9CA3AF;
+    font-size: 0.9rem;
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-links a {
+    color: #D1D5DB;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    border-top: 1px solid #374151;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.footer-bottom p {
+    color: #9CA3AF;
+    font-size: 0.8rem;
+}
+
+/* General Styles */
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+h1,
+h2 {
+    line-height: 1.3;
+    margin: 15px 0;
+}
+
+button {
+    transition: all 0.5s ease-in-out;
+    font-size: 1em;
+    padding: 1em;
+    width: 100%;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+button,
+a,
+li {
+    cursor: pointer;
+}
+
+/* Blob Animations */
+.flex-hero .blob-cont {
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    margin: 10px;
+}
+
+.blob {
+    border-radius: 100px;
+    filter: blur(60px);
+}
+
+.blue {
+    background-color: #2937a392;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 55%;
+    bottom: 25%;
+    margin: auto;
+    height: 150px;
+    width: 200px;
+    animation: blobani 8s infinite ease;
+}
+
+.blue1 {
+    background-color: #2937a392;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: -55%;
+    bottom: -25%;
+    margin: auto;
+    height: 150px;
+    width: 200px;
+    animation: blobani 8s infinite ease;
+}
+
+@keyframes blobani {
+    0% {
+        top: 0;
+        left: 0;
+        transform: scale(1);
+    }
+    30% {
+        top: 0;
+        left: 0;
+        transform: scale(1.2);
+    }
+    60% {
+        top: 0;
+        left: 0;
+        transform: scale(1.3);
+    }
+    100% {
+        top: 0;
+        left: 0;
+        transform: scale(1);
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 980px) {
+    .navigation {
+        display: none;
+    }
+    
+    .hero-section h1 {
+        text-align: center;
+    }
+    
+    .hero-section {
+        padding-top: 12rem;
+    }
+    
+    .hero-section h4 {
+        font-size: 21px;
+        text-align: center;
+        padding: 0px 4rem;
+    }
+    
+    .image {
+        width: 500px;
+    }
+    
+    .hero-section .button {
+        margin-top: 15px;
+        width: 45%;
+    }
+    
+    .services-title {
+        font-size: 2rem;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-links {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .hero-section h1 {
+        font-size: 35px;
+    }
+
+    .hero-section {
+        padding-top: 10rem;
+    }
+    
+    .hero-section h4 {
+        font-size: 16px;
+        padding: 0px 2rem;
+    }
+    
+    .nav-container {
+        padding: 0 1rem;
+    }
+    
+    .auth-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .services-title {
+        font-size: 1.5rem;
+    }
+    
+    .service-card {
+        padding: 1.5rem;
+    }
+}  
