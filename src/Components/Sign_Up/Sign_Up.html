@@ -62,7 +62,9 @@
                         class="form-input" 
                         placeholder="Enter your phone number"
                         required
-                        pattern="[\+]?[1-9][\d]{0,15}"
+                        inputmode="numeric"
+                        maxlength="10"
+                        pattern="\d{10}"
                     >
                     <div class="error-message" id="phoneError"></div>
                 </div>
@@ -77,7 +79,7 @@
                         class="form-input" 
                         placeholder="Enter your email"
                         required
-                        pattern="\\S+@\\S+"
+                        pattern="\S+@\S+"
                     >
                     <div class="error-message" id="emailError"></div>
                 </div>
@@ -192,8 +194,8 @@
                         showError(fieldName, 'Phone number is required');
                         return false;
                     }
-                    if (!/^[\+]?[1-9][\d]{0,15}$/.test(value)) {
-                        showError(fieldName, 'Please enter a valid phone number');
+                    if (!/^\d{10}$/.test(value)) {
+                        showError(fieldName, 'Phone must be exactly 10 digits');
                         return false;
                     }
                     break;
@@ -259,6 +261,13 @@
                     submitText.classList.remove('hidden');
                     loadingText.classList.add('hidden');
                 }, 2000);
+            }
+        });
+
+        document.getElementById('phone').addEventListener('input', function (e) {
+            const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+            if (e.target.value !== digits) {
+                e.target.value = digits;
             }
         });
 

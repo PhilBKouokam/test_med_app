@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   // === (was in <script>) state + functions ===
@@ -22,16 +23,16 @@ function Navbar() {
 
           {/* Navigation Menu */}
           <nav className="nav-menu">
-            <a href="Navbar.html" className="nav-link">Home</a>
-            <a href="#" className="nav-link">Appointments</a>
-            <a href="#" className="nav-link">Health Blog</a>
-            <a href="#" className="nav-link">Reviews</a>
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/appointments" className="nav-link">Appointments</Link>
+            <Link to="/blog" className="nav-link">Health Blog</Link>
+            <Link to="/reviews" className="nav-link">Reviews</Link>
           </nav>
 
           {/* Auth Buttons */}
           <div className="auth-buttons">
-            <a href="../Sign_Up/Sign_Up.html" className="btn btn-signup">Sign Up</a>
-            <a href="../Login/Login.html" className="btn btn-login">Login</a>
+            <Link to="/signup" className="btn btn-signup">Sign Up</Link>
+            <Link to="/login" className="btn btn-login">Login</Link>
           </div>
 
           {/* Mobile Menu Toggle */}

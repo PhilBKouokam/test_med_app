@@ -1,6 +1,7 @@
 // src/Landing_Page/Landing_Page.js
 import React from "react";
 import "./Landing_Page.css";
+import { Link } from "react-router-dom";
 
 const Landing_Page = () => {
   return (
@@ -16,16 +17,16 @@ const Landing_Page = () => {
           </div>
 
           <nav className="navigation">
-            <a href="#home" className="nav-link">Home</a>
-            <a href="#appointments" className="nav-link">Appointments</a>
-            <a href="#blog" className="nav-link">Health Blog</a>
-            <a href="#reviews" className="nav-link">Reviews</a>
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/appointments" className="nav-link">Appointments</Link>
+            <Link to="/blog" className="nav-link">Health Blog</Link>
+            <Link to="/reviews" className="nav-link">Reviews</Link>
           </nav>
 
-          <div className="auth-buttons">
-            <button className="btn-signup">Sign Up</button>
-            <button className="btn-login">Login</button>
-          </div>
+            <div className="auth-buttons">
+                <Link to="/signup" className="btn-signup">Sign Up</Link>
+                <Link to="/login" className="btn-login">Login</Link>
+            </div>
         </div>
       </header>
 
