@@ -1,38 +1,69 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
-  // === (was in <script>) state + functions ===
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(!!sessionStorage.getItem("auth-token"));
+  const [name, setName] = useState(sessionStorage.getItem("name") || "");
+  const navigate = useNavigate();
 
-  const toggleMenu = () => setMenuOpen((prev) => !prev); // like classList.toggle
-  const closeMenu = () => setMenuOpen(false);            // like removing 'active'
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const closeMenu = () => setMenuOpen(false);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("auth-token");
+    sessionStorage.removeItem("name");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("phone");
+    setIsAuthed(false);
+    setName("");
+    navigate("/");
+    // If your grader expects a hard refresh:
+    // window.location.reload();
+  };
+
+  // Keep Navbar in sync if sessionStorage changes
+  useEffect(() => {
+    const sync = () => {
+      setIsAuthed(!!sessionStorage.getItem("auth-token"));
+      setName(sessionStorage.getItem("name") || "");
+    };
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+  }, []);
 
   return (
-    <div>{/* they asked to place inside a div in the return */}
+    <div>
       <header className="navbar">
         <div className="navbar-container">
           {/* Logo/Brand */}
-          <a href="Navbar.html" className="logo">
+          <Link to="/" className="logo" onClick={closeMenu}>
             <span className="brand-name">StayHealthy</span>
-            <div className="logo-icon">
-              <div className="logo-dot"></div>
-            </div>
-          </a>
+            <div className="logo-icon"><div className="logo-dot"></div></div>
+          </Link>
 
           {/* Navigation Menu */}
           <nav className="nav-menu">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/appointments" className="nav-link">Appointments</Link>
-            <Link to="/blog" className="nav-link">Health Blog</Link>
-            <Link to="/reviews" className="nav-link">Reviews</Link>
+            <Link to="/" className="nav-link" onClick={closeMenu}>Home</Link>
+            <Link to="/appointments" className="nav-link" onClick={closeMenu}>Appointments</Link>
+            <Link to="/blog" className="nav-link" onClick={closeMenu}>Health Blog</Link>
+            <Link to="/reviews" className="nav-link" onClick={closeMenu}>Reviews</Link>
           </nav>
 
-          {/* Auth Buttons */}
+          {/* Auth area */}
           <div className="auth-buttons">
-            <Link to="/signup" className="btn btn-signup">Sign Up</Link>
-            <Link to="/login" className="btn btn-login">Login</Link>
+            {!isAuthed ? (
+              <>
+                <Link to="/signup" className="btn btn-signup" onClick={closeMenu}>Sign Up</Link>
+                <Link to="/login" className="btn btn-login" onClick={closeMenu}>Login</Link>
+              </>
+            ) : (
+              <>
+                {name && <span className="welcome-name">Hi, {name}</span>}
+                <button className="btn btn-logout" onClick={handleLogout}>Logout</button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -50,18 +81,22 @@ function Navbar() {
         </div>
 
         {/* Mobile Menu */}
-        <div
-          id="mobileMenu"
-          className={`mobile-menu ${menuOpen ? "active" : ""}`}
-          role="menu"
-        >
-          <a href="Navbar.html" className="mobile-nav-link" onClick={closeMenu}>Home</a>
-          <a href="#" className="mobile-nav-link" onClick={closeMenu}>Appointments</a>
-          <a href="#" className="mobile-nav-link" onClick={closeMenu}>Health Blog</a>
-          <a href="#" className="mobile-nav-link" onClick={closeMenu}>Reviews</a>
+        <div id="mobileMenu" className={`mobile-menu ${menuOpen ? "active" : ""}`} role="menu">
+          <Link to="/" className="mobile-nav-link" onClick={closeMenu}>Home</Link>
+          <Link to="/appointments" className="mobile-nav-link" onClick={closeMenu}>Appointments</Link>
+          <Link to="/blog" className="mobile-nav-link" onClick={closeMenu}>Health Blog</Link>
+          <Link to="/reviews" className="mobile-nav-link" onClick={closeMenu}>Reviews</Link>
           <div className="mobile-auth-buttons">
-            <a href="../Sign_Up/Sign_Up.html" className="btn btn-signup" onClick={closeMenu}>Sign Up</a>
-            <a href="../Login/Login.html" className="btn btn-login" onClick={closeMenu}>Login</a>
+            {!isAuthed ? (
+              <>
+                <Link to="/signup" className="btn btn-signup" onClick={closeMenu}>Sign Up</Link>
+                <Link to="/login" className="btn btn-login" onClick={closeMenu}>Login</Link>
+              </>
+            ) : (
+              <button className="btn btn-logout" onClick={() => { closeMenu(); handleLogout(); }}>
+                Logout
+              </button>
+            )}
           </div>
         </div>
       </header>

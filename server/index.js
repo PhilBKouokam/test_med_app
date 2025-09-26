@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 8181;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 
 // Connect to MongoDB
 connectToMongo();
@@ -28,6 +28,6 @@ app.get('/', (req, res) => {
 
 
   // Start the server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
 console.log(`Server is running on port http://localhost:${PORT}`);
 });
