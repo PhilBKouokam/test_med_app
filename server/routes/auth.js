@@ -37,49 +37,66 @@ passport.deserializeUser(function (id, cb) {
 });
 
 // Route 1: Registering A New User: POST: http://localhost:8181/api/auth/register. No Login Required
-router.post('/register',[
-    body('email', "Please Enter a Vaild Email").isEmail(),
-    body('name', "Username should be at least 4 characters.").isLength({ min: 4 }),
-    body('password', "Password Should Be At Least 8 Characters.").isLength({ min: 8 }),
-    body('phone', "Phone Number Should Be 10 Digits.").isLength({ min: 10 }),
-], async (req, res) => {
-
-    const error = validationResult(req);
-    if(!error.isEmpty()){
-        return res.status(400).json({error: error.array()});
-    }
-
-    try {
-        const checkMultipleUser1 = await UserSchema.findOne({ email : req.body.email });
-        if(checkMultipleUser1){
-            return res.status(403).json({ error: "A User with this email address already exists" });
+router.post(
+    '/register',
+    [
+      body('email', 'Please enter a valid email').isEmail().normalizeEmail(),
+      body('name', 'Username should be at least 4 characters').isLength({ min: 4 }),
+      body('password', 'Password should be at least 8 characters').isLength({ min: 8 }),
+      body('phone', 'Phone number must be exactly 10 digits').custom((value) => {
+        if (!/^\d{10}$/.test(value)) {
+          throw new Error('Phone number must be exactly 10 digits');
         }
-
+        return true;
+      }),
+    ],
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+  
+      try {
+        const { email, name, password, phone } = req.body;
+  
+        // Check for existing user
+        const existingUser = await UserSchema.findOne({ email });
+        if (existingUser) {
+          return res.status(403).json({ error: 'A user with this email address already exists' });
+        }
+  
+        // Hash password
         const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(req.body.password, salt);
-        
-        const newUser =  await UserSchema.create({
-            email: req.body.email,
-            name: req.body.name,
-            password: hash,
-            phone: req.body.phone,
-            createdAt: Date(),
+        const hashedPassword = await bcrypt.hash(password, salt);
+  
+        // Create new user
+        const newUser = await UserSchema.create({
+          email,
+          name,
+          password: hashedPassword,
+          phone,
+          createdAt: new Date(), // Use Date object for proper storage
         });
-
+  
+        // Generate JWT payload with user data
         const payload = {
-            user: {
-                id: newUser.id,
-            }
-        }
+          user: {
+            id: newUser._id, // Use MongoDB _id
+            name: newUser.name,
+            email: newUser.email,
+            phone: newUser.phone,
+          },
+        };
         const authtoken = jwt.sign(payload, JWT_SECRET);
-        res.json({ authtoken });
-
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send("Internal Server Error");
+  
+        // Return token and user data
+        res.json({ authtoken, name: newUser.name, email: newUser.email, phone: newUser.phone });
+      } catch (error) {
+        console.error('Registration error:', error.message); // Log specific error
+        return res.status(500).json({ error: 'Internal server error. Please try again later.' });
+      }
     }
-
-});
+  );
 
 router.post('/login', [
     body('email', "Please Enter a Vaild Email").isEmail(),

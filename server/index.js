@@ -1,33 +1,31 @@
 const express = require('express');
 const cors = require('cors');
-const http = require('http');
 const connectToMongo = require('./db');
 const app = express();
 
-
-app.set('view engine','ejs')
-app.use(express.static('public'))
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
 const PORT = process.env.PORT || 8181;
 
+// Enhanced CORS configuration
+app.use(cors({
+  origin: "http://localhost:3000", // Allow React app origin
+  credentials: true, // Allow cookies or auth headers if needed
+  methods: ['GET', 'POST', 'PUT', 'OPTIONS'], // Allow necessary methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow common headers
+}));
 
-// Middleware
 app.use(express.json());
-app.use(cors({ origin: true, credentials: true }));
 
-// Connect to MongoDB
 connectToMongo();
 
-// Routes
 app.use('/api/auth', require('./routes/auth'));
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+  res.send('Hello World!');
 });
 
-
-
-  // Start the server
 app.listen(PORT, '0.0.0.0', () => {
-console.log(`Server is running on port http://localhost:${PORT}`);
+  console.log(`Server is running on port http://localhost:${PORT}`);
 });
