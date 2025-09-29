@@ -22,6 +22,8 @@ connectToMongo();
 
 app.use('/api/auth', require('./routes/auth'));
 
+app.options('/api/auth/register', cors()); // Explicitly handle OPTIONS
+
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
