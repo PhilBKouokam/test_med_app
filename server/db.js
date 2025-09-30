@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
-const mongoURI =  "mongodb://root:E5XVU81sXEQ9swHC9LvCjwEE@172.21.79.3:27017";
+const mongoURI =  "mongodb://root:RCQM7NyiGJaMNGknvjDk5TwV@172.21.87.214:27017";
 //const mongoURI = "mongodb://localhost:27017"; // For local testing
 
 const connectToMongo = async (retryCount) => {

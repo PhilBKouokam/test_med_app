@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
+const https = require('https');
 const connectToMongo = require('./db');
 const app = express();
 
@@ -8,13 +10,13 @@ app.use(express.static('public'));
 
 const PORT = process.env.PORT || 8181;
 
-// Enhanced CORS configuration
 app.use(cors({
-  origin: "http://localhost:3000", // Allow React app origin
-  credentials: true, // Allow cookies or auth headers if needed
-  methods: ['GET', 'POST', 'PUT', 'OPTIONS'], // Allow necessary methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow common headers
+  origin: "https://kouokambryan-3001.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai", // Match HTTPS origin
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+app.options('/api/auth/register', cors());
 
 app.use(express.json());
 
@@ -22,12 +24,15 @@ connectToMongo();
 
 app.use('/api/auth', require('./routes/auth'));
 
-app.options('/api/auth/register', cors()); // Explicitly handle OPTIONS
-
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
+const httpsOptions = {
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem'),
+};
+
+https.createServer(httpsOptions, app).listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on port https://localhost:${PORT}`);
 });
