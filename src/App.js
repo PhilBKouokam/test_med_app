@@ -15,6 +15,8 @@ import Login from "./Components/Login/Login";
 // Import custom Navbar component
 import Navbar from './Components/Navbar/Navbar';
 
+import InstantConsultation from "./Components/InstantConsultationBooking/InstantConsultationBooking";
+
 // Function component for the main App
 function App() {
 
