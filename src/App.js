@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 // Import necessary modules from React library
 import React from 'react';
@@ -15,7 +15,7 @@ import Login from "./Components/Login/Login";
 // Import custom Navbar component
 import Navbar from './Components/Navbar/Navbar';
 
-import InstantConsultation from "./Components/InstantConsultationBooking/InstantConsultationBooking";
+import InstantConsultation from './Components/InstantConsultation/InstantConsultation';
 
 // Function component for the main App
 function App() {
@@ -34,6 +34,7 @@ function App() {
                <Route path="/" element={<Landing_Page />} />
                <Route path="/signup" element={<Sign_Up />} />
                <Route path="/login" element={<Login />} />
+               <Route path="/instant-consultation" element={<InstantConsultation />} />
             </Routes>
         </BrowserRouter>
     </div>

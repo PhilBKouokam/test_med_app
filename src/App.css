@@ -1,38 +1,78 @@
-.App {
-  text-align: center;
-}
+/* ==========================
+   StayHealthy Global Styles
+   ========================== */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* Reset + Base Layout */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff; /* clean white background */
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  /* App Container */
+  .App {
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
   }
-  to {
-    transform: rotate(360deg);
+  
+  /* Links */
+  a {
+    color: #7c3aed;
+    text-decoration: none;
+    transition: color 0.2s ease;
   }
-}
+  
+  a:hover {
+    color: #a855f7;
+  }
+  
+  /* Buttons */
+  button {
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease;
+  }
+  
+  button:hover {
+    transform: translateY(-1px);
+  }
+  
+  /* Gradient Accent (for hero or headers) */
+  .gradient-text {
+    background: linear-gradient(45deg, #7c3aed, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Subtle Shadow Utility */
+  .shadow-soft {
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.15);
+  }
+  
+  /* Hide default React logo stuff */
+  .App-logo,
+  .App-header {
+    display: none;
+  }
+  
+  /* Smooth Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease forwards;
+  }

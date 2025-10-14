@@ -47,6 +47,7 @@ function Navbar() {
           <nav className="nav-menu">
             <Link to="/" className="nav-link" onClick={closeMenu}>Home</Link>
             <Link to="/appointments" className="nav-link" onClick={closeMenu}>Appointments</Link>
+            <Link to="/instant-consultation" className="nav-link" onClick={closeMenu}>Instant Booking</Link>
             <Link to="/blog" className="nav-link" onClick={closeMenu}>Health Blog</Link>
             <Link to="/reviews" className="nav-link" onClick={closeMenu}>Reviews</Link>
           </nav>
@@ -84,6 +85,7 @@ function Navbar() {
         <div id="mobileMenu" className={`mobile-menu ${menuOpen ? "active" : ""}`} role="menu">
           <Link to="/" className="mobile-nav-link" onClick={closeMenu}>Home</Link>
           <Link to="/appointments" className="mobile-nav-link" onClick={closeMenu}>Appointments</Link>
+          <Link to="/instant-consultation" className="nav-link" onClick={closeMenu}>Instant Booking</Link>
           <Link to="/blog" className="mobile-nav-link" onClick={closeMenu}>Health Blog</Link>
           <Link to="/reviews" className="mobile-nav-link" onClick={closeMenu}>Reviews</Link>
           <div className="mobile-auth-buttons">

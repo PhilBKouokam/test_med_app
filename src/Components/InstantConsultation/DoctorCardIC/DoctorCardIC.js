@@ -1,0 +1,133 @@
+import React, { useState } from "react";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+import "./DoctorCardIC.css";
+import AppointmentFormIC from "../AppointmentFormIC/AppointmentFormIC";
+import { v4 as uuidv4 } from "uuid";
+
+const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [appointments, setAppointments] = useState([]);
+
+  const handleBooking = () => setShowModal(true);
+  const handleCancel = (id) =>
+    setAppointments((prev) => prev.filter((a) => a.id !== id));
+
+  const handleFormSubmit = (data) => {
+    setAppointments([{ id: uuidv4(), ...data }]);
+    setShowModal(false);
+  };
+
+  const renderStars = (count) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <span key={i} className={i < count ? "star filled" : "star"}>
+          ★
+        </span>
+      );
+    }
+    return stars;
+  };
+
+  return (
+    <div className="doctor-card-container">
+      <div className="doctor-card-profile-image-container">
+        {profilePic ? (
+          <img src={profilePic} alt={name} />
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="60"
+            height="60"
+            fill="#7c3aed"
+            viewBox="0 0 16 16"
+          >
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+          </svg>
+        )}
+      </div>
+
+      <div className="doctor-card-details-container">
+        <div className="doctor-card-detail-name">Dr. {name}</div>
+        <div className="doctor-card-detail-speciality">{speciality}</div>
+        <div className="doctor-card-detail-experience">
+          {experience} years experience
+        </div>
+        <div className="doctor-card-detail-consultationfees">
+          Ratings: {renderStars(ratings)}
+        </div>
+      </div>
+
+      <div className="doctor-card-options-container">
+        <button
+          className={
+            appointments.length > 0
+              ? "cancel-appointment-btn"
+              : "book-appoinment-btn"
+          }
+          onClick={handleBooking}
+        >
+          {appointments.length > 0 ? "Cancel Appointment" : "Book Now"}
+        </button>
+      </div>
+
+      <Popup open={showModal} modal onClose={() => setShowModal(false)}>
+        <div className="modal-content">
+          <div className="doctor-card-profile-image-container">
+            {profilePic ? (
+              <img src={profilePic} alt={name} />
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="60"
+                height="60"
+                fill="#7c3aed"
+                viewBox="0 0 16 16"
+              >
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+              </svg>
+            )}
+          </div>
+
+          <div className="doctor-card-details">
+            <div className="doctor-card-detail-name">Dr. {name}</div>
+            <div className="doctor-card-detail-speciality">{speciality}</div>
+            <div className="doctor-card-detail-experience">
+              {experience} years experience
+            </div>
+            <div className="doctor-card-detail-consultationfees">
+              Ratings: {renderStars(ratings)}
+            </div>
+          </div>
+
+          {appointments.length > 0 ? (
+            <>
+              <h3 className="appointment-confirmed">Appointment Booked!</h3>
+              {appointments.map((a) => (
+                <div key={a.id} className="bookedInfo">
+                  <p>Name: {a.name}</p>
+                  <p>Phone Number: {a.phoneNumber}</p>
+                  <button
+                    className="cancel-appointment-btn"
+                    onClick={() => handleCancel(a.id)}
+                  >
+                    Cancel Appointment
+                  </button>
+                </div>
+              ))}
+            </>
+          ) : (
+            <AppointmentFormIC
+              doctorName={name}
+              doctorSpeciality={speciality}
+              onSubmit={handleFormSubmit}
+            />
+          )}
+        </div>
+      </Popup>
+    </div>
+  );
+};
+
+export default DoctorCardIC;
