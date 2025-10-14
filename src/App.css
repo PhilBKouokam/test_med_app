@@ -60,6 +60,11 @@ body, html {
   .App-header {
     display: none;
   }
+
+  /* Smooth route transitions */
+  .App {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
   
   /* Smooth Animations */
   @keyframes fadeInUp {
@@ -75,4 +80,9 @@ body, html {
   
   .fade-in-up {
     animation: fadeInUp 0.6s ease forwards;
+  }
+
+  /* Force global background to stay white (safety override) */
+html, body, #root {
+    background-color: #ffffff !important;
   }

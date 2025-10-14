@@ -184,7 +184,7 @@ body {
 }
 
 /* Services Section */
-.services-section {
+.landing-page .services-section {
     padding: 5rem 2rem;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -476,3 +476,7 @@ li {
         padding: 1.5rem;
     }
 }  
+
+html, body {
+    background: #fff !important;
+  }
