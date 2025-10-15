@@ -32,20 +32,26 @@
      ------------------------------ */
   
   .doctor-search-box {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
-    overflow: hidden;
-    width: 420px;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+        position: relative;
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+        overflow: visible; /* ensure dropdown isn’t clipped */
+        width: 420px;
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
   }
   
   .doctor-search-box:hover {
     box-shadow: 0 6px 18px rgba(124, 58, 237, 0.25);
     transform: translateY(-2px);
+  }
+
+  .doctor-search-box:hover .search-doctor-input-results,
+  .search-doctor-input-results:hover {
+    display: block;
   }
   
   .findiconimg {
@@ -83,16 +89,16 @@
      ------------------------------ */
   
   .search-doctor-input-results {
-    position: absolute;
-    top: 45px;
-    left: 0;
-    width: 100%;
-    max-height: 320px;
-    overflow-y: auto;
-    background-color: #fff;
-    z-index: 10;
-    border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.15);
+        position: absolute;
+        top: 48px;
+        left: 0;
+        width: 100%;
+        max-height: 320px;
+        overflow-y: auto;
+        background-color: #fff;
+        z-index: 2000; /* higher than navbar and any page elements */
+        border-radius: 8px;
+        box-shadow: 0 8px 22px rgba(124, 58, 237, 0.25);
   }
   
   .search-doctor-result-item {

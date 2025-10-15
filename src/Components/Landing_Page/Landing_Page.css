@@ -115,11 +115,11 @@ body {
 
 /* Hero Section Styles */
 .hero-section {
-    height: 100vh;
-    padding-top: 15rem;
-    background-color: transparent;
-    z-index: -1;
+    min-height: 100vh;
+    padding-top: 8rem; /* previously 15rem — adjusted for fixed navbar height */
+    background-color: #ffffff;
     position: relative;
+    z-index: 1;
     overflow: hidden;
 }
 
@@ -184,10 +184,11 @@ body {
 }
 
 /* Services Section */
-.landing-page .services-section {
+.services-section {
     padding: 5rem 2rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+    color: #ffffff;
+    border-top: 1px solid #e5e7eb;
 }
 
 .services-container {
