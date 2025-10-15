@@ -2,6 +2,41 @@ import React, { useState } from 'react';
 import './FindDoctorSearchIC.css';
 import DoctorCardIC from "../DoctorCardIC/DoctorCardIC";
 
+const doctorsData = [
+  {
+    id: 1,
+    name: "Jiao Yang",
+    speciality: "Dentist",
+    experience: 9,
+    ratings: 5,
+    profilePic: "https://cdn.pixabay.com/photo/2025/05/27/17/13/female-9625677_1280.png",
+  },
+  {
+    id: 2,
+    name: "Rahul Mehta",
+    speciality: "Dentist",
+    experience: 7,
+    ratings: 4,
+    profilePic: "https://cdn.pixabay.com/photo/2024/08/13/11/42/ai-generated-8965801_1280.png",
+  },
+  {
+    id: 3,
+    name: "Sofia Alvarez",
+    speciality: "Dermatologist",
+    experience: 10,
+    ratings: 5,
+    profilePic: "https://cdn.pixabay.com/photo/2023/07/22/01/21/ai-generated-8142548_1280.png",
+  },
+  {
+    id: 4,
+    name: "Daniel Kim",
+    speciality: "General Physician",
+    experience: 6,
+    ratings: 4,
+    profilePic: "https://cdn.pixabay.com/photo/2024/08/18/04/44/ai-generated-8976950_1280.png",
+  },
+];
+
 const initSpeciality = [
   'Dentist', 'Gynecologist/obstetrician', 'General Physician', 
   'Dermatologist', 'Ear-nose-throat (ent) Specialist', 'Homeopath', 'Ayurveda'
@@ -11,12 +46,16 @@ const FindDoctorSearchIC = () => {
   const [doctorResultHidden, setDoctorResultHidden] = useState(true);
   const [searchDoctor, setSearchDoctor] = useState('');
   const [specialities] = useState(initSpeciality);
-  const [selectedSpeciality, setSelectedSpeciality] = useState(null);
+  const [selectedDoctors, setSelectedDoctors] = useState(doctorsData);
 
   const handleDoctorSelect = (speciality) => {
     setSearchDoctor(speciality);
     setDoctorResultHidden(true);
-    setSelectedSpeciality(speciality);
+
+    const filtered = doctorsData.filter(
+      (doc) => doc.speciality.toLowerCase() === speciality.toLowerCase()
+    );
+    setSelectedDoctors(filtered);
   };
 
   return (
@@ -32,7 +71,7 @@ const FindDoctorSearchIC = () => {
               className="search-doctor-input-box"
               placeholder="Search doctors, clinics, hospitals, etc."
               onFocus={() => setDoctorResultHidden(false)}
-              onBlur={() => setDoctorResultHidden(true)}
+              onBlur={() => setTimeout(() => setDoctorResultHidden(true), 150)}
               value={searchDoctor}
               onChange={(e) => setSearchDoctor(e.target.value)}
             />
@@ -66,14 +105,33 @@ const FindDoctorSearchIC = () => {
           </div>
         </div>
 
-        {selectedSpeciality && (
-          <DoctorCardIC
-            name="Jiao Yang"
-            speciality={selectedSpeciality}
-            experience={9}
-            ratings={5}
-            profilePic={process.env.PUBLIC_URL + 'https://cdn.pixabay.com/photo/2025/05/27/17/13/female-9625677_1280.png'}
-          />
+        {selectedDoctors.length > 0 && (
+          <div className="search-results-container">
+            <h2>{selectedDoctors.length} doctors available</h2>
+            <p style={{ color: '#6b7280', marginBottom: '2rem' }}>
+              Book appointments with minimum wait-time & verified doctor details
+            </p>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: "20px",
+                marginTop: "20px",
+              }}
+            >
+              {selectedDoctors.map((doc) => (
+                <DoctorCardIC
+                  key={doc.id}
+                  name={doc.name}
+                  speciality={doc.speciality}
+                  experience={doc.experience}
+                  ratings={doc.ratings}
+                  profilePic={doc.profilePic}
+                />
+              ))}
+            </div>
+          </div>
         )}
       </center>
     </div>
