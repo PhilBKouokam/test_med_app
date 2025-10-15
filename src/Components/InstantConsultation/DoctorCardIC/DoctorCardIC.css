@@ -273,3 +273,58 @@
     color: #374151;
     margin: 4px 0;
   }
+
+  /* Remove the default white background box */
+  .popup-content {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: auto !important;
+    padding: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup-content {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .popup-content[aria-hidden="true"] {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  /* Improve overlay appearance */
+  .popup-overlay {
+    background: rgba(0, 0, 0, 0.4) !important; /* soft dim background */
+    backdrop-filter: blur(3px);
+    animation: overlayFade 0.35s ease;
+  }
+
+  @keyframes overlayFade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Ensure proper positioning */
+  .popup-content > * {
+    margin: auto;
+  }
+
+  .popup-content {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+  }
+  
+  @media (max-height: 700px) {
+    .popup-content {
+      align-items: flex-start !important;
+      padding-top: 60px !important;
+    }
+  }

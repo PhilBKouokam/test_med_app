@@ -60,25 +60,34 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
       </div>
 
       <div className="doctor-card-options-container">
-      <button
-        className={
-            appointments.length > 0
-            ? "cancel-appointment-btn"
-            : "book-appoinment-btn"
-        }
-        onClick={handleBooking}
-        >
         {appointments.length > 0 ? (
-            "Cancel Appointment"
+      <>
+            <div className="appointment-summary">
+                <h4>Appointment Details</h4>
+                <p><strong>Name:</strong> {appointments[0].name}</p>
+                <p><strong>Phone:</strong> {appointments[0].phoneNumber}</p>
+                <p><strong>Date:</strong> {appointments[0].appointmentDate}</p>
+                <p><strong>Time Slot:</strong> {appointments[0].timeSlot}</p>
+            </div>
+
+            <button
+                className="cancel-appointment-btn"
+                onClick={() => handleCancel(appointments[0].id)}
+            >
+                Cancel Appointment
+            </button>
+            </>
         ) : (
-            <>
+            <button
+            className="book-appoinment-btn"
+            onClick={handleBooking}
+            >
             Book Appointment
             <br />
             <span className="no-booking-fee-text">No Booking Fee</span>
-            </>
+            </button>
         )}
-      </button>
-      </div>
+        </div>
 
       <Popup
         open={showModal}
