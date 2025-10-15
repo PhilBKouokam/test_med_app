@@ -1,49 +1,57 @@
 import React, { useEffect, useState } from "react";
 import "./Navbar.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAuthed, setIsAuthed] = useState(!!sessionStorage.getItem("auth-token"));
   const [name, setName] = useState(sessionStorage.getItem("name") || "");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => setMenuOpen(false);
 
   const handleLogout = () => {
-    sessionStorage.removeItem("auth-token");
-    sessionStorage.removeItem("name");
-    sessionStorage.removeItem("email");
-    sessionStorage.removeItem("phone");
+    sessionStorage.clear();
     setIsAuthed(false);
     setName("");
     navigate("/");
-    // If your grader expects a hard refresh:
-    // window.location.reload();
   };
 
-  // Keep Navbar in sync if sessionStorage changes
+  // ✅ Run on mount + every route change (including reloads)
   useEffect(() => {
-    const sync = () => {
-      setIsAuthed(!!sessionStorage.getItem("auth-token"));
-      setName(sessionStorage.getItem("name") || "");
+    const authed = !!sessionStorage.getItem("auth-token");
+    const storedName = sessionStorage.getItem("name") || "";
+    setIsAuthed(authed);
+    setName(storedName);
+  }, [location]); // triggers on any route navigation
+
+  // ✅ Extra: Sync on focus (e.g., after login from another tab)
+  useEffect(() => {
+    const syncOnFocus = () => {
+      const authed = !!sessionStorage.getItem("auth-token");
+      const storedName = sessionStorage.getItem("name") || "";
+      setIsAuthed(authed);
+      setName(storedName);
     };
-    window.addEventListener("storage", sync);
-    return () => window.removeEventListener("storage", sync);
+    window.addEventListener("focus", syncOnFocus);
+    return () => window.removeEventListener("focus", syncOnFocus);
   }, []);
 
   return (
     <div>
       <header className="navbar">
         <div className="navbar-container">
-          {/* Logo/Brand */}
+          {/* Logo */}
           <Link to="/" className="logo" onClick={closeMenu}>
             <span className="brand-name">StayHealthy</span>
-            <div className="logo-icon"><div className="logo-dot"></div></div>
+            <div className="logo-icon">
+              <div className="logo-dot"></div>
+            </div>
           </Link>
 
-          {/* Navigation Menu */}
+          {/* Menu */}
           <nav className="nav-menu">
             <Link to="/" className="nav-link" onClick={closeMenu}>Home</Link>
             <Link to="/appointments" className="nav-link" onClick={closeMenu}>Appointments</Link>
@@ -52,17 +60,23 @@ function Navbar() {
             <Link to="/reviews" className="nav-link" onClick={closeMenu}>Reviews</Link>
           </nav>
 
-          {/* Auth area */}
+          {/* Auth Buttons */}
           <div className="auth-buttons">
             {!isAuthed ? (
               <>
-                <Link to="/signup" className="btn btn-signup" onClick={closeMenu}>Sign Up</Link>
-                <Link to="/login" className="btn btn-login" onClick={closeMenu}>Login</Link>
+                <Link to="/signup" className="btn btn-signup" onClick={closeMenu}>
+                  Sign Up
+                </Link>
+                <Link to="/login" className="btn btn-login" onClick={closeMenu}>
+                  Login
+                </Link>
               </>
             ) : (
               <>
                 {name && <span className="welcome-name">Hi, {name}</span>}
-                <button className="btn btn-logout" onClick={handleLogout}>Logout</button>
+                <button className="btn btn-logout" onClick={handleLogout}>
+                  Logout
+                </button>
               </>
             )}
           </div>
@@ -85,7 +99,7 @@ function Navbar() {
         <div id="mobileMenu" className={`mobile-menu ${menuOpen ? "active" : ""}`} role="menu">
           <Link to="/" className="mobile-nav-link" onClick={closeMenu}>Home</Link>
           <Link to="/appointments" className="mobile-nav-link" onClick={closeMenu}>Appointments</Link>
-          <Link to="/instant-consultation" className="nav-link" onClick={closeMenu}>Instant Booking</Link>
+          <Link to="/instant-consultation" className="mobile-nav-link" onClick={closeMenu}>Instant Booking</Link>
           <Link to="/blog" className="mobile-nav-link" onClick={closeMenu}>Health Blog</Link>
           <Link to="/reviews" className="mobile-nav-link" onClick={closeMenu}>Reviews</Link>
           <div className="mobile-auth-buttons">

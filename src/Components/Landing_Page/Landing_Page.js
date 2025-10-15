@@ -1,4 +1,3 @@
-// src/Landing_Page/Landing_Page.js
 import React from "react";
 import "./Landing_Page.css";
 import { Link } from "react-router-dom";
@@ -6,30 +5,6 @@ import { Link } from "react-router-dom";
 const Landing_Page = () => {
   return (
     <>
-      {/* Header Navigation */}
-      <header className="header">
-        <div className="nav-container">
-          <div className="logo">
-            <span className="logo-text">StayHealthy</span>
-            <div className="logo-icon">
-              <div className="logo-dot"></div>
-            </div>
-          </div>
-
-          <nav className="navigation">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/appointments" className="nav-link">Appointments</Link>
-            <Link to="/blog" className="nav-link">Health Blog</Link>
-            <Link to="/reviews" className="nav-link">Reviews</Link>
-          </nav>
-
-            <div className="auth-buttons">
-                <Link to="/signup" className="btn-signup">Sign Up</Link>
-                <Link to="/login" className="btn-login">Login</Link>
-            </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="hero-section">
         <div>

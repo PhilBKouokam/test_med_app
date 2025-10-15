@@ -92,7 +92,7 @@ const Sign_Up = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  /*const handleSubmit = async (e) => {
     e.preventDefault();
     setShowerr("");
   
@@ -179,6 +179,45 @@ const Sign_Up = () => {
       // Only true network problems end up here
       setShowerr("Network error (cannot reach API). Check API_URL, server port, or CORS.");
       console.error("[REGISTER] network error:", err);
+    } finally {
+      setSubmitting(false);
+    }
+  };*/
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Reset previous error
+    setShowerr("");
+  
+    // Local validation
+    const localErrors = {};
+    ["role", "name", "phone", "email", "password"].forEach((field) => {
+      if (!form[field]) localErrors[field] = `${field} is required`;
+    });
+    setErrors(localErrors);
+    if (Object.keys(localErrors).length > 0) return;
+  
+    setSubmitting(true);
+    try {
+      // Simulate network delay
+      await new Promise((res) => setTimeout(res, 1000));
+  
+      // Simulate backend response
+      const fakeToken = "simulated_token_" + Date.now();
+  
+      // Save to sessionStorage
+      sessionStorage.setItem("auth-token", fakeToken);
+      sessionStorage.setItem("name", form.name || "User");
+      sessionStorage.setItem("email", form.email);
+      sessionStorage.setItem("phone", form.phone || "");
+      sessionStorage.setItem("role", form.role || "");
+    
+      alert("✅ Account created successfully!");
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error("Signup simulation error:", err);
+      setShowerr("Unexpected error occurred.");
     } finally {
       setSubmitting(false);
     }

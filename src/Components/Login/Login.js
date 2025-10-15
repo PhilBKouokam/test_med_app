@@ -53,26 +53,36 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // fresh validation pass
+  
     const localErrors = {};
     if (!form.email) localErrors.email = "Email is required";
     else if (!/^\S+@\S+$/i.test(form.email))
       localErrors.email = "Please enter a valid email address";
-
+  
     if (!form.password) localErrors.password = "Password is required";
     else if (form.password.length < 6)
       localErrors.password = "Password must be at least 6 characters";
-
+  
     setErrors(localErrors);
     if (Object.keys(localErrors).length > 0) return;
-
+  
     setSubmitting(true);
     try {
-      // simulate login call
-      await new Promise((res) => setTimeout(res, 1500));
+      // Simulate login call
+      await new Promise((res) => setTimeout(res, 1000));
+  
+      // Fake login response
+      const fakeToken = "simulated_login_token_" + Date.now();
+      const fakeName = "Test User";
+  
+      // Save session (same keys as Sign_Up)
+      sessionStorage.setItem("auth-token", fakeToken);
+      sessionStorage.setItem("name", form.name || "User");
+      sessionStorage.setItem("email", form.email);
+      sessionStorage.setItem("phone", form.phone || "");
+      sessionStorage.setItem("role", form.role || "");
+  
       alert("Login successful!");
-      // navigate to home (or dashboard) after login
       navigate("/");
     } finally {
       setSubmitting(false);
