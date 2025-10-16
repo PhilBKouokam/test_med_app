@@ -11,37 +11,41 @@ const Notification = ({ children }) => {
   const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
-    // Get stored data
-    const storedUsername = sessionStorage.getItem("name");
-    const storedDoctorData = JSON.parse(localStorage.getItem("doctorData"));
-    const storedAppointmentData = JSON.parse(
-      localStorage.getItem(storedDoctorData?.name)
-    );
-
-    if (storedUsername) {
-      setIsLoggedIn(true);
-      setUsername(storedUsername);
-    }
-    if (storedDoctorData) {
-      setDoctorData(storedDoctorData);
-    }
-    if (storedAppointmentData) {
-      setAppointmentData(storedAppointmentData);
-      setShowNotification(true);
-    }
-
-    // Listen for appointment cancellation
-    const handleStorageChange = () => {
-      const latestAppointment = JSON.parse(
+    const updateStateFromStorage = () => {
+      const storedUsername = sessionStorage.getItem("name");
+      const storedDoctorData = JSON.parse(localStorage.getItem("doctorData"));
+      const storedAppointmentData = JSON.parse(
         localStorage.getItem(storedDoctorData?.name)
       );
-      if (!latestAppointment) {
+  
+      if (storedUsername) {
+        setIsLoggedIn(true);
+        setUsername(storedUsername);
+      }
+  
+      if (storedDoctorData) {
+        setDoctorData(storedDoctorData);
+      }
+  
+      if (storedAppointmentData) {
+        setAppointmentData(storedAppointmentData);
+        setShowNotification(true);
+      } else {
         setShowNotification(false);
       }
     };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
+  
+    // Run once initially
+    updateStateFromStorage();
+  
+    // Listen to both events
+    window.addEventListener("storage", updateStateFromStorage);
+    window.addEventListener("appointmentUpdate", updateStateFromStorage);
+  
+    return () => {
+      window.removeEventListener("storage", updateStateFromStorage);
+      window.removeEventListener("appointmentUpdate", updateStateFromStorage);
+    };
   }, []);
 
   if (!isLoggedIn) {

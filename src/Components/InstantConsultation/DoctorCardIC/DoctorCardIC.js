@@ -18,7 +18,9 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
     localStorage.removeItem(name);
     localStorage.removeItem("doctorData");
     // ✅ Notify Notification.js via "storage" event
+    // Trigger both same-tab and cross-tab notifications
     window.dispatchEvent(new Event("storage"));
+    window.dispatchEvent(new Event("appointmentUpdate"));
   };
 
   // ✅ When form is submitted
@@ -38,7 +40,9 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
     }));
 
     // ✅ Notify Notification.js that booking happened
+    // Trigger both same-tab and cross-tab notifications
     window.dispatchEvent(new Event("storage"));
+    window.dispatchEvent(new Event("appointmentUpdate"));
   };
 
   const renderStars = (count) => {
