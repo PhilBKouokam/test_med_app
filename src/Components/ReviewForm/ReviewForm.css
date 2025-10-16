@@ -1,0 +1,49 @@
+.review-container {
+    width: 85%;
+    margin: 40px auto;
+    text-align: center;
+  }
+  
+  .review-title {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+  
+  .review-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .review-table th,
+  .review-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+  }
+  
+  .review-table th {
+    background-color: #f6f8fc;
+    color: #555;
+  }
+  
+  .feedback-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .feedback-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .no-appointments {
+    color: #777;
+    font-style: italic;
+  }

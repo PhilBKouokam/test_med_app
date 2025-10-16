@@ -30,6 +30,11 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
 
   const handleBooking = () => setShowModal(true);
 
+  // right after booking:
+  const allDoctors = JSON.parse(localStorage.getItem("doctorDataList")) || {};
+  allDoctors[name] = { speciality };
+  localStorage.setItem("doctorDataList", JSON.stringify(allDoctors));
+
   const handleCancel = (id) => {
     const updated = appointments.filter((a) => a.id !== id);
     setAppointments(updated);
