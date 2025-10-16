@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "./DoctorCardIC.css";
@@ -9,56 +9,76 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
   const [showModal, setShowModal] = useState(false);
   const [appointments, setAppointments] = useState([]);
 
+  // ✅ Load doctor-specific appointment from global list
+  useEffect(() => {
+    const savedAll = JSON.parse(localStorage.getItem("appointments")) || {};
+    if (savedAll[name]) {
+      setAppointments(savedAll[name]);
+    }
+  }, [name]);
+
+  // ✅ Save global appointments object when this doctor's changes
+  const saveAppointments = (updatedAppointments) => {
+    const all = JSON.parse(localStorage.getItem("appointments")) || {};
+    if (updatedAppointments.length > 0) {
+      all[name] = updatedAppointments;
+    } else {
+      delete all[name];
+    }
+    localStorage.setItem("appointments", JSON.stringify(all));
+  };
+
   const handleBooking = () => setShowModal(true);
 
-  // ✅ Cancel appointment
   const handleCancel = (id) => {
-    setAppointments((prev) => prev.filter((a) => a.id !== id));
-    // ✅ Remove appointment info from localStorage
-    localStorage.removeItem(name);
-    localStorage.removeItem("doctorData");
-    // ✅ Notify Notification.js via "storage" event
-    // Trigger both same-tab and cross-tab notifications
-    window.dispatchEvent(new Event("storage"));
+    const updated = appointments.filter((a) => a.id !== id);
+    setAppointments(updated);
+    saveAppointments(updated);
+
+    // Remove global notification data if this doctor has no appointments left
+    if (updated.length === 0) {
+      localStorage.removeItem("doctorData");
+      localStorage.removeItem(name);
+    }
+
+    // Notify Notification.js
     window.dispatchEvent(new Event("appointmentUpdate"));
   };
 
-  // ✅ When form is submitted
   const handleFormSubmit = (data) => {
     const appointment = { id: uuidv4(), ...data };
-    setAppointments([appointment]);
+    const updated = [appointment];
+    setAppointments(updated);
+    saveAppointments(updated);
     setShowModal(false);
 
-    // ✅ Save doctor + appointment data in localStorage
+    // ✅ Update notification data for this specific booking
     localStorage.setItem(
       "doctorData",
       JSON.stringify({ name, speciality, experience, ratings })
     );
-    localStorage.setItem(name, JSON.stringify({
-      date: data.appointmentDate,
-      time: data.timeSlot,
-    }));
+    localStorage.setItem(
+      name,
+      JSON.stringify({
+        date: data.appointmentDate,
+        time: data.timeSlot,
+      })
+    );
 
-    // ✅ Notify Notification.js that booking happened
-    // Trigger both same-tab and cross-tab notifications
-    window.dispatchEvent(new Event("storage"));
+    // Notify Notification.js
     window.dispatchEvent(new Event("appointmentUpdate"));
   };
 
-  const renderStars = (count) => {
-    const stars = [];
-    for (let i = 0; i < 5; i++) {
-      stars.push(
-        <span key={i} className={i < count ? "star filled" : "star"}>
-          ★
-        </span>
-      );
-    }
-    return stars;
-  };
+  const renderStars = (count) =>
+    Array.from({ length: 5 }, (_, i) => (
+      <span key={i} className={i < count ? "star filled" : "star"}>
+        ★
+      </span>
+    ));
 
   return (
     <div className="doctor-card-container">
+      {/* Doctor Info */}
       <div className="doctor-card-profile-image-container">
         {profilePic ? (
           <img src={profilePic} alt={name} />
