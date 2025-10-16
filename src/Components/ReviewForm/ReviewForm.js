@@ -1,47 +1,43 @@
 import React, { useEffect, useState } from "react";
 import "./ReviewForm.css";
+import GiveReviews from "../ReviewForm/GiveReviews";
 
 const ReviewForm = () => {
   const [appointments, setAppointments] = useState([]);
   const [reviews, setReviews] = useState({});
+  const [activeDoctor, setActiveDoctor] = useState(null);
 
   useEffect(() => {
-    // ✅ Load all doctor appointments
+    // ✅ Load appointment and doctor data
     const allAppointments = JSON.parse(localStorage.getItem("appointments")) || {};
+    const doctorDataList = JSON.parse(localStorage.getItem("doctorDataList")) || {};
 
-    // Convert each doctor's saved data into a row
-    const flattened = Object.keys(allAppointments).map((doctorName, index) => {
-      // Retrieve specialty info if stored under doctor-specific key
-      const doctorInfo = JSON.parse(localStorage.getItem("doctorData")) || {};
-      const storedDoctorData = JSON.parse(localStorage.getItem("doctorDataList") || "{}");
-
-      return {
-        serial: index + 1,
-        doctorName,
-        speciality:
-          storedDoctorData[doctorName]?.speciality ||
-          doctorInfo.speciality ||
-          "N/A",
-      };
-    });
+    // ✅ Combine data sources for table
+    const flattened = Object.keys(allAppointments).map((doctorName, index) => ({
+      serial: index + 1,
+      doctorName,
+      speciality:
+        doctorDataList[doctorName]?.speciality ||
+        allAppointments[doctorName]?.doctorSpeciality ||
+        "N/A",
+    }));
 
     setAppointments(flattened);
 
-    // ✅ Load any existing reviews
+    // ✅ Load any stored reviews
     const storedReviews = JSON.parse(localStorage.getItem("reviews")) || {};
     setReviews(storedReviews);
   }, []);
 
-  const handleAddReview = (doctorName) => {
-    const reviewText = prompt(`Please enter your review for Dr. ${doctorName}:`);
-    if (reviewText && reviewText.trim() !== "") {
-      const updatedReviews = {
-        ...reviews,
-        [doctorName]: reviewText,
-      };
-      setReviews(updatedReviews);
-      localStorage.setItem("reviews", JSON.stringify(updatedReviews));
-    }
+  // ✅ Save submitted reviews
+  const handleReviewSubmit = (doctorName, reviewData) => {
+    const updatedReviews = {
+      ...reviews,
+      [doctorName]: reviewData,
+    };
+    setReviews(updatedReviews);
+    localStorage.setItem("reviews", JSON.stringify(updatedReviews));
+    setActiveDoctor(null); // close the review form
   };
 
   return (
@@ -49,7 +45,7 @@ const ReviewForm = () => {
       <h2 className="review-title">Reviews</h2>
 
       {appointments.length === 0 ? (
-        <p className="no-appointments">No completed consultations yet.</p>
+        <p className="no-appointments">No booked consultations yet.</p>
       ) : (
         <table className="review-table">
           <thead>
@@ -62,26 +58,58 @@ const ReviewForm = () => {
             </tr>
           </thead>
           <tbody>
-            {appointments.map((appt) => (
-              <tr key={appt.serial}>
-                <td>{appt.serial}</td>
-                <td>{`Dr. ${appt.doctorName}`}</td>
-                <td>{appt.speciality}</td>
-                <td>
-                  <button
-                    className="feedback-btn"
-                    onClick={() => handleAddReview(appt.doctorName)}
-                  >
-                    Click Here
-                  </button>
-                </td>
-                <td>
-                  {reviews[appt.doctorName]
-                    ? reviews[appt.doctorName]
-                    : "No review yet"}
-                </td>
-              </tr>
-            ))}
+            {appointments.map((appt) => {
+              const review = reviews[appt.doctorName];
+              const hasReview = !!review;
+
+              return (
+                <React.Fragment key={appt.serial}>
+                  <tr>
+                    <td>{appt.serial}</td>
+                    <td>{`Dr. ${appt.doctorName}`}</td>
+                    <td>{appt.speciality}</td>
+                    <td>
+                      <button
+                        className="feedback-btn"
+                        onClick={() =>
+                          setActiveDoctor(
+                            activeDoctor === appt.doctorName
+                              ? null
+                              : appt.doctorName
+                          )
+                        }
+                        disabled={hasReview} // ✅ Disable once reviewed
+                        style={{
+                          opacity: hasReview ? 0.6 : 1,
+                          cursor: hasReview ? "not-allowed" : "pointer",
+                        }}
+                      >
+                        {hasReview ? "Submitted" : "Click Here"}
+                      </button>
+                    </td>
+                    <td className="review-message">
+                      {review
+                        ? `"${review.review}" (${review.rating}/5)`
+                        : "No review yet"}
+                    </td>
+                  </tr>
+
+                  {/* ✅ Show review form below doctor when active */}
+                  {activeDoctor === appt.doctorName && !hasReview && (
+                    <tr>
+                      <td colSpan="5">
+                        <GiveReviews
+                          doctorName={appt.doctorName}
+                          onSubmit={(data) =>
+                            handleReviewSubmit(appt.doctorName, data)
+                          }
+                        />
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              );
+            })}
           </tbody>
         </table>
       )}
