@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import ProfileCard from "../ProfileCard/ProfileCard";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -39,6 +40,16 @@ function Navbar() {
     return () => window.removeEventListener("focus", syncOnFocus);
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (!e.target.closest(".profile-dropdown")) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, []);
+
   return (
     <div>
       <header className="navbar">
@@ -73,10 +84,34 @@ function Navbar() {
               </>
             ) : (
               <>
-                {name && <span className="welcome-name">Hi, {name}</span>}
-                <button className="btn btn-logout" onClick={handleLogout}>
-                  Logout
-                </button>
+                {isAuthed && (
+                    <div className="profile-wrapper">
+                        <div className="profile-header">
+                        <span
+                            className="welcome-name"
+                            onClick={() => setMenuOpen((prev) => !prev)}
+                            style={{ cursor: "pointer" }}
+                        >
+                            Hi, {name} ⌄
+                        </span>
+                        <button className="btn btn-logout" onClick={handleLogout}>
+                            Logout
+                        </button>
+                        </div>
+
+                        {menuOpen && (
+                        <div className="profile-dropdown-absolute">
+                            <ProfileCard
+                            user={{
+                                name: sessionStorage.getItem("name"),
+                                email: sessionStorage.getItem("email"),
+                                phone: sessionStorage.getItem("phone"),
+                            }}
+                            />
+                        </div>
+                        )}
+                    </div>
+                    )} 
               </>
             )}
           </div>

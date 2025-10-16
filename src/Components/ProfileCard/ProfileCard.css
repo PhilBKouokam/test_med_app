@@ -1,0 +1,39 @@
+.profile-card {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    width: 260px;
+    padding: 16px 20px;
+    text-align: left;
+    z-index: 9999;
+    animation: fadeIn 0.25s ease;
+  }
+  
+  .profile-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .profile-details p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    color: #444;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Prevent it from breaking the navbar layout */
+  .profile-dropdown {
+    position: relative;
+    display: inline-block;
+  }

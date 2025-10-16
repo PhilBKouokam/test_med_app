@@ -332,3 +332,37 @@ body {
         margin-top: 60px;
     }
 }
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+.welcome-name {
+    font-weight: 500;
+    color: #333;
+}
+
+  /* === Profile Dropdown Fix === */
+.profile-wrapper {
+    position: relative; /* isolates dropdown positioning */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+  
+  /* Ensure dropdown doesn't affect navbar layout */
+.profile-dropdown-absolute {
+    position: absolute;
+    top: 60px; /* aligns just below the navbar */
+    right: 0;
+    z-index: 2000;
+    animation: fadeIn 0.2s ease;
+}
+  
+  /* Dropdown fade-in */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
