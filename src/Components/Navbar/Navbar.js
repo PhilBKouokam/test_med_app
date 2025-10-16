@@ -4,7 +4,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import ProfileCard from "../ProfileCard/ProfileCard";
 
 function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // still for mobile menu
+  const [profileOpen, setProfileOpen] = useState(false); // new: for profile dropdown
   const [isAuthed, setIsAuthed] = useState(!!sessionStorage.getItem("auth-token"));
   const [name, setName] = useState(sessionStorage.getItem("name") || "");
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function Navbar() {
     sessionStorage.clear();
     setIsAuthed(false);
     setName("");
+    setProfileOpen(false);
     navigate("/");
   };
 
@@ -41,13 +43,11 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (!e.target.closest(".profile-dropdown")) {
-        setMenuOpen(false);
-      }
+    const closeOnOutsideClick = (e) => {
+      if (!e.target.closest(".profile-wrapper")) setProfileOpen(false);
     };
-    document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
+    document.addEventListener("click", closeOnOutsideClick);
+    return () => document.removeEventListener("click", closeOnOutsideClick);
   }, []);
 
   return (
@@ -89,7 +89,7 @@ function Navbar() {
                         <div className="profile-header">
                         <span
                             className="welcome-name"
-                            onClick={() => setMenuOpen((prev) => !prev)}
+                            onClick={() => setProfileOpen((prev) => !prev)}
                             style={{ cursor: "pointer" }}
                         >
                             Hi, {name} ⌄
@@ -99,7 +99,7 @@ function Navbar() {
                         </button>
                         </div>
 
-                        {menuOpen && (
+                        {profileOpen && (
                         <div className="profile-dropdown-absolute">
                             <ProfileCard
                             user={{
