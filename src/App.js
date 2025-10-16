@@ -17,6 +17,8 @@ import Navbar from './Components/Navbar/Navbar';
 
 import InstantConsultation from './Components/InstantConsultation/InstantConsultation';
 
+import Notification from "./Components/Notification/Notification";
+
 // Function component for the main App
 function App() {
 
@@ -34,7 +36,11 @@ function App() {
                <Route path="/" element={<Landing_Page />} />
                <Route path="/signup" element={<Sign_Up />} />
                <Route path="/login" element={<Login />} />
-               <Route path="/instant-consultation" element={<InstantConsultation />} />
+               <Route 
+               path="/instant-consultation" 
+               element={<Notification> 
+                <InstantConsultation /> 
+                </Notification>} />
             </Routes>
         </BrowserRouter>
     </div>

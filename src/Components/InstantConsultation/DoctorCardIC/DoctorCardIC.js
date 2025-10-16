@@ -10,12 +10,35 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
   const [appointments, setAppointments] = useState([]);
 
   const handleBooking = () => setShowModal(true);
-  const handleCancel = (id) =>
-    setAppointments((prev) => prev.filter((a) => a.id !== id));
 
+  // ✅ Cancel appointment
+  const handleCancel = (id) => {
+    setAppointments((prev) => prev.filter((a) => a.id !== id));
+    // ✅ Remove appointment info from localStorage
+    localStorage.removeItem(name);
+    localStorage.removeItem("doctorData");
+    // ✅ Notify Notification.js via "storage" event
+    window.dispatchEvent(new Event("storage"));
+  };
+
+  // ✅ When form is submitted
   const handleFormSubmit = (data) => {
-    setAppointments([{ id: uuidv4(), ...data }]);
+    const appointment = { id: uuidv4(), ...data };
+    setAppointments([appointment]);
     setShowModal(false);
+
+    // ✅ Save doctor + appointment data in localStorage
+    localStorage.setItem(
+      "doctorData",
+      JSON.stringify({ name, speciality, experience, ratings })
+    );
+    localStorage.setItem(name, JSON.stringify({
+      date: data.appointmentDate,
+      time: data.timeSlot,
+    }));
+
+    // ✅ Notify Notification.js that booking happened
+    window.dispatchEvent(new Event("storage"));
   };
 
   const renderStars = (count) => {
@@ -61,33 +84,30 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
 
       <div className="doctor-card-options-container">
         {appointments.length > 0 ? (
-      <>
+          <>
             <div className="appointment-summary">
-                <h4>Appointment Details</h4>
-                <p><strong>Name:</strong> {appointments[0].name}</p>
-                <p><strong>Phone:</strong> {appointments[0].phoneNumber}</p>
-                <p><strong>Date:</strong> {appointments[0].appointmentDate}</p>
-                <p><strong>Time Slot:</strong> {appointments[0].timeSlot}</p>
+              <h4>Appointment Details</h4>
+              <p><strong>Name:</strong> {appointments[0].name}</p>
+              <p><strong>Phone:</strong> {appointments[0].phoneNumber}</p>
+              <p><strong>Date:</strong> {appointments[0].appointmentDate}</p>
+              <p><strong>Time Slot:</strong> {appointments[0].timeSlot}</p>
             </div>
 
             <button
-                className="cancel-appointment-btn"
-                onClick={() => handleCancel(appointments[0].id)}
+              className="cancel-appointment-btn"
+              onClick={() => handleCancel(appointments[0].id)}
             >
-                Cancel Appointment
+              Cancel Appointment
             </button>
-            </>
+          </>
         ) : (
-            <button
-            className="book-appoinment-btn"
-            onClick={handleBooking}
-            >
+          <button className="book-appoinment-btn" onClick={handleBooking}>
             Book Appointment
             <br />
             <span className="no-booking-fee-text">No Booking Fee</span>
-            </button>
+          </button>
         )}
-        </div>
+      </div>
 
       <Popup
         open={showModal}
@@ -95,32 +115,32 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
         nested
         closeOnDocumentClick
         onClose={() => setShowModal(false)}
-        >
+      >
         {appointments.length > 0 ? (
-            <>
+          <>
             <h3 className="appointment-confirmed">Appointment Booked!</h3>
             {appointments.map((a) => (
-                <div key={a.id} className="bookedInfo">
+              <div key={a.id} className="bookedInfo">
                 <p>Name: {a.name}</p>
                 <p>Phone Number: {a.phoneNumber}</p>
                 <button
-                    className="cancel-appointment-btn"
-                    onClick={() => handleCancel(a.id)}
+                  className="cancel-appointment-btn"
+                  onClick={() => handleCancel(a.id)}
                 >
-                    Cancel Appointment
+                  Cancel Appointment
                 </button>
-                </div>
+              </div>
             ))}
-            </>
+          </>
         ) : (
-            <AppointmentFormIC
+          <AppointmentFormIC
             doctorName={name}
             doctorSpeciality={speciality}
             doctorExperience={experience}
             doctorRating={ratings}
             onSubmit={handleFormSubmit}
-            onClose={() => setShowModal(false)} // ✅ optional, for manual close
-            />
+            onClose={() => setShowModal(false)}
+          />
         )}
       </Popup>
     </div>
