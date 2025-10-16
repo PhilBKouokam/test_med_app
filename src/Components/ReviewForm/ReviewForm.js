@@ -69,23 +69,27 @@ const ReviewForm = () => {
                     <td>{`Dr. ${appt.doctorName}`}</td>
                     <td>{appt.speciality}</td>
                     <td>
-                      <button
+                    <button
                         className="feedback-btn"
                         onClick={() =>
-                          setActiveDoctor(
+                            setActiveDoctor(
                             activeDoctor === appt.doctorName
-                              ? null
-                              : appt.doctorName
-                          )
+                                ? null // if clicked again, close the form
+                                : appt.doctorName // if different doctor, open form
+                            )
                         }
-                        disabled={hasReview} // ✅ Disable once reviewed
+                        disabled={hasReview}
                         style={{
-                          opacity: hasReview ? 0.6 : 1,
-                          cursor: hasReview ? "not-allowed" : "pointer",
+                            opacity: hasReview ? 0.6 : 1,
+                            cursor: hasReview ? "not-allowed" : "pointer",
                         }}
-                      >
-                        {hasReview ? "Submitted" : "Click Here"}
-                      </button>
+                        >
+                        {hasReview
+                            ? "Submitted"
+                            : activeDoctor === appt.doctorName
+                            ? "Close Form"
+                            : "Click Here"}
+                    </button>
                     </td>
                     <td className="review-message">
                       {review
