@@ -8,6 +8,7 @@ function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false); // new: for profile dropdown
   const [isAuthed, setIsAuthed] = useState(!!sessionStorage.getItem("auth-token"));
   const [name, setName] = useState(sessionStorage.getItem("name") || "");
+  const [showProfile, setShowProfile] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -43,11 +44,20 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    const closeOnOutsideClick = (e) => {
-      if (!e.target.closest(".profile-wrapper")) setProfileOpen(false);
+    const closeOnOutside = (e) => {
+      const wrapper = document.querySelector(".profile-wrapper");
+      const dropdown = document.querySelector(".profile-dropdown-absolute");
+      const clickedInsideWrapper = wrapper && wrapper.contains(e.target);
+      const clickedInsideDropdown = dropdown && dropdown.contains(e.target);
+  
+      if (!clickedInsideWrapper && !clickedInsideDropdown) {
+        setProfileOpen(false);
+        setShowProfile(false);
+      }
     };
-    document.addEventListener("click", closeOnOutsideClick);
-    return () => document.removeEventListener("click", closeOnOutsideClick);
+  
+    document.addEventListener("mousedown", closeOnOutside); // <-- mousedown
+    return () => document.removeEventListener("mousedown", closeOnOutside);
   }, []);
 
   return (
@@ -99,15 +109,19 @@ function Navbar() {
                         </button>
                         </div>
 
+                        {/* inside Navbar.js */}
                         {profileOpen && (
-                            <div className="profile-dropdown-absolute">
-                                {!sessionStorage.getItem("showProfile") ? (
+                            <div
+                                className="profile-dropdown-absolute"
+                                onClick={(e) => e.stopPropagation()}   // <-- block bubbling from inside dropdown
+                            >
+                                {!showProfile ? (
                                 <div className="profile-menu">
                                     <div
                                     className="profile-menu-item"
-                                    onClick={() => {
-                                        sessionStorage.setItem("showProfile", "true");
-                                        window.dispatchEvent(new Event("profileToggle"));
+                                    onClick={(e) => {
+                                        e.stopPropagation();            // <-- ensure this click isn’t treated as 'outside'
+                                        setShowProfile(true);
                                     }}
                                     >
                                     Your Profile
@@ -120,10 +134,7 @@ function Navbar() {
                                     email: sessionStorage.getItem("email"),
                                     phone: sessionStorage.getItem("phone"),
                                     }}
-                                    onClose={() => {
-                                    sessionStorage.removeItem("showProfile");
-                                    window.dispatchEvent(new Event("profileToggle"));
-                                    }}
+                                    onClose={() => setShowProfile(false)}
                                 />
                                 )}
                             </div>
