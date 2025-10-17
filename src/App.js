@@ -11,6 +11,7 @@ import Login from "./Components/Login/Login";
 import InstantConsultation from './Components/InstantConsultation/InstantConsultation';
 import Notification from "./Components/Notification/Notification"; // ✅ Import Notification
 import ReviewForm from "./Components/ReviewForm/ReviewForm";
+import ReportsLayout from "./Components/ReportsLayout/ReportsLayout";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/instant-consultation" element={<InstantConsultation />} />
             <Route path="/reviews" element={<ReviewForm />} />
+            <Route path="/reports" element={<ReportsLayout />} />
           </Routes>
         </Notification>
       </BrowserRouter>

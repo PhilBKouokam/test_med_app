@@ -353,13 +353,45 @@ body {
 }
   
   /* Ensure dropdown doesn't affect navbar layout */
-.profile-dropdown-absolute {
+  .profile-wrapper {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  /* dropdown menu itself */
+  .profile-dropdown-absolute {
     position: absolute;
-    top: 60px; /* aligns just below the navbar */
-    right: 0;
-    z-index: 2000;
-    animation: fadeIn 0.2s ease;
-}
+    top: 115%;              /* places dropdown just below “Welcome, username” */
+    left: -50px;                /* align it directly below Welcome text */
+    z-index: 3000;
+    background: transparent; /* ✅ remove the outer white box */
+    padding: 0;
+    width: auto;
+  }
+  
+  /* inner menu box */
+  .profile-menu {
+    background: #fff;       /* white background only for the dropdown box */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    width: 180px;
+    animation: fadeIn 0.2s ease-in-out;
+  }
+  
+  .profile-menu-item {
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #333;
+    text-align: center;
+    transition: color 0.2s ease;
+  }
+  
+  .profile-menu-item:hover {
+    color: #6a11cb; /* matches your purple theme */
+  }
   
   /* Dropdown fade-in */
 @keyframes fadeIn {

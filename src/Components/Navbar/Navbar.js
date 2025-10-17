@@ -120,11 +120,22 @@ function Navbar() {
                                     <div
                                     className="profile-menu-item"
                                     onClick={(e) => {
-                                        e.stopPropagation();            // <-- ensure this click isn’t treated as 'outside'
+                                        e.stopPropagation();
                                         setShowProfile(true);
                                     }}
                                     >
                                     Your Profile
+                                    </div>
+                                
+                                    <div
+                                    className="profile-menu-item"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setProfileOpen(false);
+                                        navigate("/reports");
+                                    }}
+                                    >
+                                    Your Reports
                                     </div>
                                 </div>
                                 ) : (
