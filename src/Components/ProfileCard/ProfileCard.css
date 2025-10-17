@@ -17,6 +17,8 @@
   .profile-form label {
     display: block;
     margin-bottom: 1rem;
+    font-weight: 600;
+    color: #444;
   }
   
   .profile-form input {
@@ -27,18 +29,35 @@
     font-size: 14px;
   }
   
+  /* === Unified Button Styling (Purple Gradient) === */
   .profile-form button,
   .profile-details button {
     margin-top: 1rem;
-    background: #3b82f6;
+    background: linear-gradient(45deg, #2190FF 2.34%, #b673f8 100.78%);
     color: white;
     border: none;
-    border-radius: 6px;
-    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    font-size: 15px;
     cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   
   .profile-form button:hover,
   .profile-details button:hover {
-    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(182, 115, 248, 0.4);
+  }
+  
+  /* Subtle fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
