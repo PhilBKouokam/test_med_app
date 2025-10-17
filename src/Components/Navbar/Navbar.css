@@ -362,10 +362,10 @@ body {
   /* dropdown menu itself */
   .profile-dropdown-absolute {
     position: absolute;
-    top: 115%;              /* places dropdown just below “Welcome, username” */
-    left: -50px;                /* align it directly below Welcome text */
+    top: 115%;              
+    left: -70px;                
     z-index: 3000;
-    background: transparent; /* ✅ remove the outer white box */
+    background: transparent; 
     padding: 0;
     width: auto;
   }
