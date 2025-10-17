@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Report - StayHealthy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+
+        .report-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header */
+        .report-header {
+            border-bottom: 4px solid #7c3aed;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .logo-section h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #2190FF 2.34%, #b673f8 100.78%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .logo-section p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .report-info {
+            text-align: right;
+        }
+
+        .report-info p {
+            margin-bottom: 5px;
+        }
+
+        .report-info .title {
+            color: #1f2937;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .report-info .date {
+            color: #666;
+        }
+
+        /* Section Titles */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #7c3aed;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9d5ff;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .info-item {
+            margin-bottom: 5px;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #1f2937;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* Vital Signs */
+        .vitals-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .vital-card {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #7c3aed;
+        }
+
+        .vital-card .info-label {
+            margin-bottom: 8px;
+        }
+
+        /* Text Content */
+        .text-content {
+            color: #1f2937;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Diagnosis Box */
+        .diagnosis-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .diagnosis-box p {
+            color: #1f2937;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .diagnosis-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .diagnosis-box strong {
+            font-weight: 600;
+        }
+
+        /* Lab Results Table */
+        .lab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .lab-table thead tr {
+            background: #f9fafb;
+        }
+
+        .lab-table th {
+            padding: 15px;
+            text-align: left;
+            color: #1f2937;
+            font-weight: 600;
+            border: 1px solid #e5e7eb;
+        }
+
+        .lab-table td {
+            padding: 15px;
+            color: #1f2937;
+            border: 1px solid #e5e7eb;
+        }
+
+        .lab-table tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .status-high {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .status-normal {
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .status-borderline {
+            color: #ea580c;
+            font-weight: 600;
+        }
+
+        /* Prescription */
+        .prescription-item {
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .prescription-item .medication-name {
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        .prescription-item .dosage,
+        .prescription-item .duration {
+            color: #666;
+            margin-top: 5px;
+            line-height: 1.6;
+        }
+
+        /* Recommendations List */
+        .recommendations-list {
+            padding-left: 25px;
+        }
+
+        .recommendations-list li {
+            color: #1f2937;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        /* Follow-up Box */
+        .followup-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .followup-box p {
+            color: #1f2937;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .followup-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .followup-box strong {
+            font-weight: 600;
+        }
+
+        /* Signature */
+        .signature-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #d1d5db;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .signature-box {
+            max-width: 350px;
+        }
+
+        .signature-line {
+            height: 80px;
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .signature-text {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2rem;
+            color: #1f2937;
+        }
+
+        .doctor-info {
+            border-top: 2px solid #6b7280;
+            padding-top: 10px;
+        }
+
+        .doctor-info p {
+            color: #1f2937;
+            margin-bottom: 3px;
+        }
+
+        .doctor-info .license {
+            color: #666;
+        }
+
+        .report-date {
+            text-align: right;
+        }
+
+        .report-date .label {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .report-date .date {
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .report-footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #d1d5db;
+            text-align: center;
+            color: #666;
+        }
+
+        .report-footer p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .report-footer .disclaimer {
+            font-size: 0.85rem;
+            margin-top: 15px;
+            color: #999;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .report-container {
+                box-shadow: none;
+                padding: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <!-- Header -->
+        <div class="report-header">
+            <div class="logo-section">
+                <h1>StayHealthy</h1>
+                <p>Your Health, Our Responsibility</p>
+            </div>
+            <div class="report-info">
+                <p class="title">Medical Report</p>
+                <p class="date">Date: October 17, 2025</p>
+            </div>
+        </div>
+
+        <!-- Patient Information -->
+        <div class="section">
+            <h2 class="section-title">Patient Information</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <p class="info-label">Patient Name</p>
+                    <p class="info-value">John Michael Smith</p>
+                </div>
+                <div class="info-item">
+                    <p class="info-label">Patient ID</p>
+                    <p class="info-value">SH-2025-001234</p>
+                </div>
+                <div class="info-item">
+                    <p class="info-label">Age / Gender</p>
+                    <p class="info-value">42 Years / Male</p>
+                </div>
+                <div class="info-item">
+                    <p class="info-label">Date of Visit</p>
+                    <p class="info-value">October 15, 2025</p>
+                </div>
+                <div class="info-item">
+                    <p class="info-label">Blood Group</p>
+                    <p class="info-value">O+ Positive</p>
+                </div>
+                <div class="info-item">
+                    <p class="info-label">Contact</p>
+                    <p class="info-value">+1 (555) 123-4567</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doctor Information -->
+        <div class="section">
+            <h2 class="section-title">Consulting Physician</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <p class="info-label">Doctor Name</p>
+                    <p class="info-value">Dr. John Doe, MD</p>
+                </div>
+                <div class="info-item">
+                    <p class="info-label">Specialization</p>
+                    <p class="info-value">Cardiology</p>
+                </div>
+                <div class="info-item">
+                    <p class="info-label">License Number</p>
+                    <p class="info-value">MD-45678-CA</p>
+                </div>
+                <div class="info-item">
+                    <p class="info-label">Contact</p>
+                    <p class="info-value">doctor@stayhealthy.com</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vital Signs -->
+        <div class="section">
+            <h2 class="section-title">Vital Signs</h2>
+            <div class="vitals-grid">
+                <div class="vital-card">
+                    <p class="info-label">Blood Pressure</p>
+                    <p class="info-value">120/80 mmHg</p>
+                </div>
+                <div class="vital-card">
+                    <p class="info-label">Heart Rate</p>
+                    <p class="info-value">72 bpm</p>
+                </div>
+                <div class="vital-card">
+                    <p class="info-label">Temperature</p>
+                    <p class="info-value">98.6°F</p>
+                </div>
+                <div class="vital-card">
+                    <p class="info-label">Respiratory Rate</p>
+                    <p class="info-value">16 breaths/min</p>
+                </div>
+                <div class="vital-card">
+                    <p class="info-label">Oxygen Saturation</p>
+                    <p class="info-value">98%</p>
+                </div>
+                <div class="vital-card">
+                    <p class="info-label">Weight</p>
+                    <p class="info-value">175 lbs</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chief Complaint -->
+        <div class="section">
+            <h2 class="section-title">Chief Complaint</h2>
+            <p class="text-content">
+                Patient presents with intermittent chest discomfort and mild shortness of breath during physical activity. Symptoms have been occurring for approximately 2 weeks.
+            </p>
+        </div>
+
+        <!-- Diagnosis -->
+        <div class="section">
+            <h2 class="section-title">Diagnosis</h2>
+            <div class="diagnosis-box">
+                <p><strong>Primary Diagnosis:</strong> Stable Angina Pectoris (ICD-10: I20.8)</p>
+                <p><strong>Secondary Diagnosis:</strong> Hypertension, Essential (ICD-10: I10)</p>
+            </div>
+        </div>
+
+        <!-- Lab Results -->
+        <div class="section">
+            <h2 class="section-title">Laboratory Results</h2>
+            <table class="lab-table">
+                <thead>
+                    <tr>
+                        <th>Test</th>
+                        <th>Result</th>
+                        <th>Normal Range</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Total Cholesterol</td>
+                        <td>220 mg/dL</td>
+                        <td>< 200 mg/dL</td>
+                        <td class="status-high">High</td>
+                    </tr>
+                    <tr>
+                        <td>LDL Cholesterol</td>
+                        <td>150 mg/dL</td>
+                        <td>< 100 mg/dL</td>
+                        <td class="status-high">High</td>
+                    </tr>
+                    <tr>
+                        <td>HDL Cholesterol</td>
+                        <td>45 mg/dL</td>
+                        <td>> 40 mg/dL</td>
+                        <td class="status-normal">Normal</td>
+                    </tr>
+                    <tr>
+                        <td>Triglycerides</td>
+                        <td>165 mg/dL</td>
+                        <td>< 150 mg/dL</td>
+                        <td class="status-borderline">Borderline High</td>
+                    </tr>
+                    <tr>
+                        <td>Blood Glucose (Fasting)</td>
+                        <td>95 mg/dL</td>
+                        <td>70-100 mg/dL</td>
+                        <td class="status-normal">Normal</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Prescription -->
+        <div class="section">
+            <h2 class="section-title">Prescription & Treatment Plan</h2>
+            <div class="prescription-item">
+                <p class="medication-name">1. Atorvastatin 20mg</p>
+                <p class="dosage">One tablet daily at bedtime</p>
+                <p class="duration">Duration: 3 months (with follow-up)</p>
+            </div>
+            <div class="prescription-item">
+                <p class="medication-name">2. Aspirin 81mg (Low-dose)</p>
+                <p class="dosage">One tablet daily with food</p>
+                <p class="duration">Duration: Ongoing</p>
+            </div>
+            <div class="prescription-item">
+                <p class="medication-name">3. Nitroglycerin 0.4mg Sublingual</p>
+                <p class="dosage">As needed for chest pain (up to 3 doses, 5 minutes apart)</p>
+                <p class="duration">Duration: Keep on hand</p>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="section">
+            <h2 class="section-title">Recommendations</h2>
+            <ul class="recommendations-list">
+                <li>Follow a heart-healthy diet low in saturated fats and cholesterol</li>
+                <li>Engage in moderate aerobic exercise for 30 minutes, 5 days per week (after cardiology clearance)</li>
+                <li>Monitor blood pressure daily and maintain a log</li>
+                <li>Reduce sodium intake to less than 2,300mg per day</li>
+                <li>Avoid smoking and limit alcohol consumption</li>
+                <li>Schedule stress test and echocardiogram within 2 weeks</li>
+            </ul>
+        </div>
+
+        <!-- Follow-up -->
+        <div class="section">
+            <h2 class="section-title">Follow-up</h2>
+            <div class="followup-box">
+                <p><strong>Next Appointment:</strong> November 15, 2025 (4 weeks)</p>
+                <p><strong>Purpose:</strong> Review lab results, assess medication effectiveness, and discuss stress test results</p>
+                <p><strong>Emergency Instructions:</strong> If you experience severe chest pain lasting more than 5 minutes, call 911 immediately</p>
+            </div>
+        </div>
+
+        <!-- Signature -->
+        <div class="signature-section">
+            <div class="signature-box">
+                <div class="signature-line">
+                    <span class="signature-text">Dr. John Doe</span>
+                </div>
+                <div class="doctor-info">
+                    <p>Dr. John Doe, MD</p>
+                    <p>Board Certified Cardiologist</p>
+                    <p class="license">License: MD-45678-CA</p>
+                </div>
+            </div>
+            <div class="report-date">
+                <p class="label">Report Generated:</p>
+                <p class="date">October 17, 2025</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="report-footer">
+            <p>StayHealthy Medical Center</p>
+            <p>123 Healthcare Avenue, Medical District, CA 90210</p>
+            <p>Phone: +1 (555) 987-6543 | Email: info@stayhealthy.com</p>
+            <p class="disclaimer">This is a confidential medical document. Unauthorized distribution is prohibited.</p>
+        </div>
+    </div>
+
+    <script>
+        // Instructions for converting to PDF
+        console.log("To convert this page to PDF:");
+        console.log("1. Press Ctrl+P (Windows) or Cmd+P (Mac)");
+        console.log("2. Select 'Save as PDF' as the destination");
+        console.log("3. Save the file as 'patient_report.pdf'");
+        console.log("4. Place the PDF file in the 'public' folder of your React project");
+    </script>
+</body>
+</html>
