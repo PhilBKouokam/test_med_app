@@ -92,7 +92,7 @@ function Navbar() {
                             onClick={() => setProfileOpen((prev) => !prev)}
                             style={{ cursor: "pointer" }}
                         >
-                            Hi, {name} ⌄
+                            Welcome, {name} ⌄
                         </span>
                         <button className="btn btn-logout" onClick={handleLogout}>
                             Logout
@@ -100,15 +100,33 @@ function Navbar() {
                         </div>
 
                         {profileOpen && (
-                        <div className="profile-dropdown-absolute">
-                            <ProfileCard
-                            user={{
-                                name: sessionStorage.getItem("name"),
-                                email: sessionStorage.getItem("email"),
-                                phone: sessionStorage.getItem("phone"),
-                            }}
-                            />
-                        </div>
+                            <div className="profile-dropdown-absolute">
+                                {!sessionStorage.getItem("showProfile") ? (
+                                <div className="profile-menu">
+                                    <div
+                                    className="profile-menu-item"
+                                    onClick={() => {
+                                        sessionStorage.setItem("showProfile", "true");
+                                        window.dispatchEvent(new Event("profileToggle"));
+                                    }}
+                                    >
+                                    Your Profile
+                                    </div>
+                                </div>
+                                ) : (
+                                <ProfileCard
+                                    user={{
+                                    name: sessionStorage.getItem("name"),
+                                    email: sessionStorage.getItem("email"),
+                                    phone: sessionStorage.getItem("phone"),
+                                    }}
+                                    onClose={() => {
+                                    sessionStorage.removeItem("showProfile");
+                                    window.dispatchEvent(new Event("profileToggle"));
+                                    }}
+                                />
+                                )}
+                            </div>
                         )}
                     </div>
                     )} 

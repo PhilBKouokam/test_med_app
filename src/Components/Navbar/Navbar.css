@@ -366,3 +366,36 @@ body {
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+.profile-menu {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 0;
+    width: 180px;
+    animation: fadeIn 0.2s ease;
+  }
+  
+  .profile-menu-item {
+    padding: 0.75rem 1.25rem;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .profile-menu-item:hover {
+    background: #f3f4f6;
+    color: #2190FF;
+  }
+  
+  /* Back button inside ProfileCard */
+  .back-btn {
+    width: 100%;
+    background: linear-gradient(45deg, #2190FF 2.34%, #b673f8 100.78%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    cursor: pointer;
+  }

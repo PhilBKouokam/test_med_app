@@ -3,7 +3,7 @@ import { API_URL } from "../../config";
 import { useNavigate } from "react-router-dom";
 import "./ProfileCard.css";
 
-const ProfileCard = ({ user }) => {
+const ProfileCard = ({ user, onClose }) => {
   const [userDetails, setUserDetails] = useState(user || {});
   const [updatedDetails, setUpdatedDetails] = useState(user || {});
   const [editMode, setEditMode] = useState(false);
@@ -69,7 +69,7 @@ const ProfileCard = ({ user }) => {
       }
   
       // Create payload
-      const payload = { ...updatedDetails };
+      //const payload = { ...updatedDetails };
   
       // Send the update request to backend
       /*const response = await fetch(`${API_URL}/api/auth/user`, {
@@ -153,6 +153,16 @@ const ProfileCard = ({ user }) => {
             />
           </label>
           <button type="submit">Save</button>
+          {!editMode && (
+            <button
+                className="back-btn"
+                onClick={() => {
+                if (onClose) onClose();
+                }}
+            >
+                Back
+            </button>
+          )}
         </form>
       )}
     </div>
