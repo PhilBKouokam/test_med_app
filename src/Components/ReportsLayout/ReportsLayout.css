@@ -1,5 +1,5 @@
 .reports-container {
-    width: 90%;
+    width: 100%;
     max-width: 900px;
     margin: 4rem auto;
     background: #fff;
@@ -46,4 +46,11 @@
   .btn-view:hover,
   .btn-download:hover {
     opacity: 0.9;
+  }
+
+  .no-reports {
+    text-align: center;
+    color: #555;
+    font-size: 1.1rem;
+    margin-top: 2rem;
   }
