@@ -1,38 +1,33 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
-const https = require('https');
 const connectToMongo = require('./db');
 const app = express();
-
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-
+const path = require('path');
 const PORT = process.env.PORT || 8181;
 
-app.use(cors({
-  origin: "https://kouokambryan-3001.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai", // Match HTTPS origin
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-app.options('/api/auth/register', cors());
-
+// Middleware
 app.use(express.json());
+app.use(cors());
 
+// Connect to MongoDB
 connectToMongo();
 
+// API routes
 app.use('/api/auth', require('./routes/auth'));
+
+// Serve React build
+app.use(express.static(path.join(__dirname, 'build')));
+
+// SPA fallback
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-const httpsOptions = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem'),
-};
-
-https.createServer(httpsOptions, app).listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port https://localhost:${PORT}`);
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

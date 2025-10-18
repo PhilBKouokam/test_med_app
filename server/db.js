@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.set('strictQuery', false);
+/*mongoose.set('strictQuery', false);
 const mongoURI =  "mongodb://root:2SRK6Hi0nbNz5lmiLJldIr5I@172.21.45.25:27017";
 //const mongoURI = "mongodb://localhost:27017"; // For local testing
 
@@ -25,6 +25,18 @@ const connectToMongo = async (retryCount) => {
         return await connectToMongo(nextRetryCount);
 
     }
-};
+};*/
+
+const connectToMongo = async () => {
+    try {
+      await mongoose.connect("mongodb://127.0.0.1:27017/stayhealthy", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      console.log("✅ MongoDB connected successfully (manual mode)");
+    } catch (error) {
+      console.error("❌ MongoDB connection failed:", error.message);
+    }
+  };
 
 module.exports = connectToMongo;
